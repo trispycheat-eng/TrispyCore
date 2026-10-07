@@ -6,6 +6,7 @@
         android:allowBackup="true"
         android:label="TrispyCore"
         android:theme="@android:style/Theme.NoTitleBar"
+        android:extractNativeLibs="true"
         android:largeHeap="true">
 
         <activity
