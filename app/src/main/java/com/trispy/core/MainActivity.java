@@ -8,8 +8,14 @@ import android.widget.TextView;
 
 public class MainActivity extends Activity {
 
+    static String loadError = "no error";
+
     static {
-        System.loadLibrary("trispy");
+        try {
+            System.loadLibrary("trispy");
+        } catch (Throwable t) {
+            loadError = t.toString();
+        }
     }
 
     public static native String getNativeMessage();
@@ -19,8 +25,16 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle b) {
         super.onCreate(b);
 
-        String msg = getNativeMessage();
-        int ver = getNativeVersion();
+        String msg = "not called";
+        String ver = "not called";
+        String callErr = "none";
+
+        try {
+            msg = getNativeMessage();
+            ver = getNativeVersion() + "";
+        } catch (Throwable t) {
+            callErr = t.toString();
+        }
 
         LinearLayout ll = new LinearLayout(this);
         ll.setOrientation(LinearLayout.VERTICAL);
@@ -28,12 +42,16 @@ public class MainActivity extends Activity {
         ll.setBackgroundColor(0xFF0A0A0F);
 
         TextView tv = new TextView(this);
-        tv.setText("TRISPY CORE\n\n" +
-                   "native says: " + msg + "\n" +
-                   "version: v" + (ver / 100) + "." + (ver % 100) + "\n\n" +
-                   "libtrispy.so loaded ✓");
+        tv.setText(
+            "TRISPY CORE\n\n" +
+            "load error: " + loadError + "\n\n" +
+            "native msg: " + msg + "\n" +
+            "native ver: " + ver + "\n" +
+            "call error: " + callErr
+        );
         tv.setTextColor(0xFF22C55E);
-        tv.setTextSize(20f);
+        tv.setTextSize(16f);
+        tv.setPadding(40, 40, 40, 40);
         tv.setGravity(Gravity.CENTER);
 
         ll.addView(tv);
