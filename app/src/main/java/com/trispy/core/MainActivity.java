@@ -18,23 +18,9 @@ public class MainActivity extends Activity {
         }
     }
 
-    public static native String getNativeMessage();
-    public static native int getNativeVersion();
-
     @Override
     protected void onCreate(Bundle b) {
         super.onCreate(b);
-
-        String msg = "not called";
-        String ver = "not called";
-        String callErr = "none";
-
-        try {
-            msg = getNativeMessage();
-            ver = getNativeVersion() + "";
-        } catch (Throwable t) {
-            callErr = t.toString();
-        }
 
         LinearLayout ll = new LinearLayout(this);
         ll.setOrientation(LinearLayout.VERTICAL);
@@ -42,13 +28,10 @@ public class MainActivity extends Activity {
         ll.setBackgroundColor(0xFF0A0A0F);
 
         TextView tv = new TextView(this);
-        tv.setText(
-            "TRISPY CORE\n\n" +
-            "load error: " + loadError + "\n\n" +
-            "native msg: " + msg + "\n" +
-            "native ver: " + ver + "\n" +
-            "call error: " + callErr
-        );
+        tv.setText("TRISPY v3\n\n" +
+                   "load: " + loadError + "\n\n" +
+                   "if loaded inside FF:\n" +
+                   "  → /sdcard/trispy_dump.txt");
         tv.setTextColor(0xFF22C55E);
         tv.setTextSize(16f);
         tv.setPadding(40, 40, 40, 40);
